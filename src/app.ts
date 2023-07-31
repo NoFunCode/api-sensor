@@ -2,10 +2,12 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
+import "reflect-metadata"
 
 import * as middlewares from './middlewares';
 import api from './api';
 import MessageResponse from './interfaces/MessageResponse';
+import { webhookAuth } from './auth/webhookAuth';
 
 require('dotenv').config();
 
@@ -21,6 +23,8 @@ app.get<{}, MessageResponse>('/', (req, res) => {
     message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
   });
 });
+
+app.use(webhookAuth)
 
 app.use('/api/v1', api);
 
